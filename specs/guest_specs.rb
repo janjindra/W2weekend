@@ -3,6 +3,7 @@ require('minitest/reporters')
 require_relative('../guest.rb')
 require_relative('../room.rb')
 require_relative('../song.rb')
+require_relative('../bar.rb')
 
 Minitest::Reporters.use!
 Minitest::Reporters::SpecReporter.new
@@ -22,6 +23,8 @@ class TestGuest < MiniTest::Test
 @song9 = Song.new("Roar")
 @song10 = Song.new("Firework")
 
+@bar = Bar.new()
+
   end
 
 def test_has_name
@@ -39,6 +42,13 @@ end
 def test_fee_reduce_wallet
   assert_equal(80, @guest3.fee_reduce_wallet(@room3.fee))
   assert_equal(4, @guest2.fee_reduce_wallet(@room2.fee))
+end
+
+def test_bar_reduce_wallet
+  assert_equal(100,@guest3.wallet)
+  assert_equal(96,@guest3.bar_reduce_wallet(@bar.drinks, "vodka"))
+  assert_equal(94,@guest3.bar_reduce_wallet(@bar.drinks, "coke"))
+  assert_equal(91,@guest3.bar_reduce_wallet(@bar.drinks, "beer"))
 end
 
 def test_playing_favourite_song
