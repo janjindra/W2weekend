@@ -33,6 +33,8 @@ class Room
     end
   end
 
+
+
   def fee_increase_till(fee)
     return @till += fee
   end

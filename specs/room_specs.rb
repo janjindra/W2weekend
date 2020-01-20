@@ -2,7 +2,7 @@ require('minitest/autorun')
 require('minitest/reporters')
 require_relative('../room.rb')
 require_relative('../guest.rb')
-
+require_relative('../bar.rb')
 
 Minitest::Reporters.use!
 Minitest::Reporters::SpecReporter.new
@@ -18,7 +18,8 @@ class TestRoom < MiniTest::Test
     @guest2 = Guest.new("Jim", 10, "Rolling in the Deep")
     @guest3 = Guest.new("George", 100, "Set Fire to the Rain" )
 
-    
+    @bar = Bar.new()
+
   end
 
   def test_has_name
@@ -89,9 +90,11 @@ class TestRoom < MiniTest::Test
     @room3.guest_check_in(@guest2, @room3)
     @room3.guest_check_out(@guest2)
     @guest1.fee_reduce_wallet(@room3.fee)
+    @guest1.bar_reduce_wallet(@bar.drinks, "vodka")
     @room3.fee_increase_till(@room3.fee)
-    assert_equal(120, @room3.till)
-    assert_equal(30, @guest1.wallet)
+    @bar.bar_increase_till(@room3,"vodka")
+    assert_equal(124, @room3.till)
+    assert_equal(26, @guest1.wallet)
     assert_equal(1,@room3.guests.length)
   end
 
